@@ -13,20 +13,21 @@ type
     Button2: TButton;
     DBGrid1: TDBGrid;
     FornecedorDeDados: TDataSource;
-    ADOQuery1: TADOQuery;
     PopupMenu1: TPopupMenu;
     Editar1: TMenuItem;
     Apagar1: TMenuItem;
-    Delete: TADOQuery;
     procedure Button2Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure DBGrid1DblClick(Sender: TObject);
     procedure Editar1Click(Sender: TObject);
     procedure Apagar1Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
     { Public declarations }
+
+    procedure ConsultaDados;
   end;
 
 var
@@ -34,7 +35,7 @@ var
 
 implementation
 
-uses DataModule,Fr_Cadastro;
+uses DataModule,Fr_Cadastro, DateUtils;
 
 {$R *.dfm}
 
@@ -56,8 +57,7 @@ begin
 
   if(var_cadastro <> 'N')Then
     begin
-      FornecedorDeDados.DataSet.Active := false;
-      FornecedorDeDados.DataSet.Active := True;
+        ConsultaDados;
   end;
 end;
 
@@ -65,9 +65,9 @@ procedure TFr_GerenciamentoLivros.DBGrid1DblClick(Sender: TObject);
 begin
   var_cadastro := 'N';
 
-  var_cod      := DataModule1.ADOTable1.Fields[0].AsString;
-  var_descri   := DataModule1.ADOTable1.Fields[1].AsString;
-  var_preco    := DataModule1.ADOTable1.Fields[2].AsString;
+  var_cod      := DataModule1.CONSULTA_DADOS_TABELA.FieldByName('CODIGO').AsString;
+  var_descri   := DataModule1.CONSULTA_DADOS_TABELA.FieldByName('DESCRICAO').AsString;
+  var_preco    := DataModule1.CONSULTA_DADOS_TABELA.FieldByName('PRECO').AsString;
 
 
 
@@ -80,8 +80,7 @@ begin
 
   if(var_cadastro <> 'N')Then
     begin
-      FornecedorDeDados.DataSet.Active := false;
-      FornecedorDeDados.DataSet.Active := True;
+      ConsultaDados;
   end;
 end;
 
@@ -89,9 +88,9 @@ procedure TFr_GerenciamentoLivros.Editar1Click(Sender: TObject);
 begin
   var_cadastro := 'N';
 
-  var_cod      := DataModule1.ADOTable1.Fields[0].AsString;
-  var_descri   := DataModule1.ADOTable1.Fields[1].AsString;
-  var_preco    := DataModule1.ADOTable1.Fields[2].AsString;
+  var_cod      := DataModule1.CONSULTA_DADOS_TABELA.FieldByName('CODIGO').AsString;
+  var_descri   := DataModule1.CONSULTA_DADOS_TABELA.FieldByName('DESCRICAO').AsString;
+  var_preco    := DataModule1.CONSULTA_DADOS_TABELA.FieldByName('PRECO').AsString;
 
 
 
@@ -104,24 +103,37 @@ begin
 
   if(var_cadastro <> 'N')Then
     begin
-      FornecedorDeDados.DataSet.Active := false;
-      FornecedorDeDados.DataSet.Active := True;
+      ConsultaDados;
   end;
 end;
 
 procedure TFr_GerenciamentoLivros.Apagar1Click(Sender: TObject);
 begin
-  With Delete do
+
+  with DataModule1.GER_LIVROS_MANUTENCAO do
     begin
       close;
-      SQL.Add('DELETE FROM LIVROS WHERE CODIGO = :codigo');
-      Parameters.ParamByName('codigo').value := DataModule1.ADOTable1.Fields[0].AsString;
-      ExecSQL;
-
-      FornecedorDeDados.DataSet.Active := false;
-      FornecedorDeDados.DataSet.Active := True;
-
+      Parameters.ParambyName('@INP_PAR_TYPE_OPERATION').value := 'EXC';
+      Parameters.ParambyName('@INP_COD_LIVRO').value := strToInt(DataModule1.CONSULTA_DADOS_TABELA.FieldByName('CODIGO').AsString);
+      ExecProc;
   end;
+
+  ConsultaDados;
+
+end;
+
+procedure TFr_GerenciamentoLivros.FormCreate(Sender: TObject);
+begin
+  ConsultaDados;
+end;
+
+procedure TFr_GerenciamentoLivros.ConsultaDados;
+begin
+    with DataModule1.CONSULTA_DADOS_TABELA do
+    begin
+      close;
+      Open; First;  
+    end
 end;
 
 end.

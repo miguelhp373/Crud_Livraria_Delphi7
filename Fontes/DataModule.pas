@@ -8,10 +8,8 @@ uses
 type
   TDataModule1 = class(TDataModule)
     DB_CONEXAO: TADOConnection;
-    ADOTable1: TADOTable;
-    ADOTable1CODIGO: TAutoIncField;
-    ADOTable1DESCRICAO: TStringField;
-    ADOTable1PRECO: TFloatField;
+    CONSULTA_DADOS_TABELA: TADOStoredProc;
+    GER_LIVROS_MANUTENCAO: TADOStoredProc;
   private
     { Private declarations }
   public

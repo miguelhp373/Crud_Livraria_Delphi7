@@ -19,7 +19,6 @@ type
     Label2: TLabel;
     pre: TEdit;
     Label3: TLabel;
-    QueryCad: TADOQuery;
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
@@ -58,27 +57,19 @@ end;
 
 procedure TForm2.Button1Click(Sender: TObject);
 begin
-  With QueryCad do
-    begin
-      close;
+        with DataModule1.GER_LIVROS_MANUTENCAO do
+           begin
+            close;
+            Parameters.ParambyName('@INP_PAR_TYPE_OPERATION').value := 'MNT';
+            Parameters.ParambyName('@INP_COD_LIVRO'         ).value := strToInt(cod.Text);
+            Parameters.ParamByName('@INP_DESCRI_LIVRO'      ).value := descri.Text;
+            Parameters.ParamByName('@INP_PRECO_LIVRO'       ).value := StrToFloat(pre.Text);
 
-      if(strtoint(cod.Text) = 0)then SQL.Add('INSERT INTO LIVROS(DESCRICAO, PRECO)VALUES(:descricao,:preco)')
-      else
-        begin
-            SQL.Add('UPDATE LIVROS SET DESCRICAO = :descricao, PRECO = :preco WHERE CODIGO = :codigo');
-            Parameters.ParamByName('codigo').value := cod.Text;
-      end;
-
-
-      Parameters.ParamByName('descricao').value := descri.Text;
-      Parameters.ParamByName('preco').value := pre.Text;
-      
-      ExecSQL;
+            ExecProc;
+          end;
+          var_cadastro := 'S';
+          close;
   end;
-
-  var_cadastro := 'S';
-  close;
-end;
 
 procedure TForm2.FormCreate(Sender: TObject);
 begin

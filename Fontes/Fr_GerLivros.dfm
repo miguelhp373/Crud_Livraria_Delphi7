@@ -1,6 +1,6 @@
 object Fr_GerenciamentoLivros: TFr_GerenciamentoLivros
-  Left = 685
-  Top = 159
+  Left = 494
+  Top = 162
   Width = 524
   Height = 271
   Caption = 'Gerenciamento De Livros'
@@ -12,6 +12,7 @@ object Fr_GerenciamentoLivros: TFr_GerenciamentoLivros
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
@@ -80,25 +81,13 @@ object Fr_GerenciamentoLivros: TFr_GerenciamentoLivros
       end>
   end
   object FornecedorDeDados: TDataSource
-    DataSet = DataModule1.ADOTable1
+    DataSet = DataModule1.CONSULTA_DADOS_TABELA
     Left = 16
     Top = 136
   end
-  object ADOQuery1: TADOQuery
-    Active = True
-    Connection = DataModule1.DB_CONEXAO
-    CursorType = ctStatic
-    DataSource = FornecedorDeDados
-    Parameters = <>
-    Prepared = True
-    SQL.Strings = (
-      'SELECT * FROM LIVROS')
-    Left = 96
-    Top = 152
-  end
   object PopupMenu1: TPopupMenu
-    Left = 288
-    Top = 136
+    Left = 16
+    Top = 168
     object Editar1: TMenuItem
       Caption = 'Editar'
       OnClick = Editar1Click
@@ -107,11 +96,5 @@ object Fr_GerenciamentoLivros: TFr_GerenciamentoLivros
       Caption = 'Apagar'
       OnClick = Apagar1Click
     end
-  end
-  object Delete: TADOQuery
-    Connection = DataModule1.DB_CONEXAO
-    Parameters = <>
-    Left = 192
-    Top = 160
   end
 end

@@ -83,28 +83,22 @@ object Form2: TForm2
       Left = 136
       Top = 24
       Width = 81
-      Height = 25
+      Height = 21
       TabOrder = 0
     end
     object descri: TEdit
       Left = 136
       Top = 56
       Width = 185
-      Height = 25
+      Height = 21
       TabOrder = 1
     end
     object pre: TEdit
       Left = 136
       Top = 88
       Width = 81
-      Height = 25
+      Height = 21
       TabOrder = 2
     end
-  end
-  object QueryCad: TADOQuery
-    Connection = DataModule1.DB_CONEXAO
-    Parameters = <>
-    Left = 32
-    Top = 105
   end
 end

@@ -8,30 +8,61 @@ object DataModule1: TDataModule1
     Connected = True
     ConnectionString = 
       'Provider=SQLOLEDB.1;Integrated Security=SSPI;Persist Security In' +
-      'fo=False;User ID=MIGUELHENRIQUE\miguel;Initial Catalog=PRG_DATAB' +
-      'ASE;Data Source=MIGUELHENRIQUE\SQLEXPRESS'
+      'fo=False;Initial Catalog=PRG_DATABASE;Data Source=MIGUELHENRIQUE' +
+      '\SQLEXPRESS'
     LoginPrompt = False
     Provider = 'SQLOLEDB.1'
     Left = 48
     Top = 40
   end
-  object ADOTable1: TADOTable
-    Active = True
+  object CONSULTA_DADOS_TABELA: TADOStoredProc
     Connection = DB_CONEXAO
-    CursorType = ctStatic
-    TableName = 'LIVROS'
-    Left = 128
-    Top = 40
-    object ADOTable1CODIGO: TAutoIncField
-      FieldName = 'CODIGO'
-      ReadOnly = True
-    end
-    object ADOTable1DESCRICAO: TStringField
-      FieldName = 'DESCRICAO'
-      Size = 255
-    end
-    object ADOTable1PRECO: TFloatField
-      FieldName = 'PRECO'
-    end
+    ProcedureName = 'dbo.CONSULTA_DADOS_TABELA'
+    Parameters = <
+      item
+        Name = '@RETURN_VALUE'
+        DataType = ftInteger
+        Direction = pdReturnValue
+        Precision = 10
+      end>
+    Left = 176
+    Top = 144
+  end
+  object GER_LIVROS_MANUTENCAO: TADOStoredProc
+    Connection = DB_CONEXAO
+    ProcedureName = 'dbo.GER_LIVROS_MANUTENCAO'
+    Parameters = <
+      item
+        Name = '@RETURN_VALUE'
+        DataType = ftInteger
+        Direction = pdReturnValue
+        Precision = 10
+      end
+      item
+        Name = '@INP_PAR_TYPE_OPERATION'
+        Attributes = [paNullable]
+        DataType = ftString
+        Size = 3
+      end
+      item
+        Name = '@INP_COD_LIVRO'
+        Attributes = [paNullable]
+        DataType = ftInteger
+        Precision = 10
+      end
+      item
+        Name = '@INP_DESCRI_LIVRO'
+        Attributes = [paNullable]
+        DataType = ftString
+        Size = 255
+      end
+      item
+        Name = '@INP_PRECO_LIVRO'
+        Attributes = [paNullable]
+        DataType = ftFloat
+        Precision = 15
+      end>
+    Left = 160
+    Top = 48
   end
 end
